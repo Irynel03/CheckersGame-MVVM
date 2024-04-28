@@ -1,0 +1,305 @@
+﻿<Window
+    x:Class="JocDameMAP_MVVM_Tema2.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctx="clr-namespace:JocDameMAP_MVVM_Tema2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Joc Dame"
+    Width="653"
+    Height="669"
+    Icon="C:\Users\andre\Desktop\sem II\MAP\Tema 1 Dictionar\Tema1Dictionar\Tema1Dictionar\Assets\Book_icon.ico"
+    ResizeMode="NoResize"
+    mc:Ignorable="d">
+    <Grid x:Name="MainGrid">
+        <Grid.Background>
+            <ImageBrush ImageSource="C:\Users\andre\Desktop\sem II\MAP\JocDameMAP-MVVM-Tema2\JocDameMAP-MVVM-Tema2\Models\Assets\123.jpg" Stretch="UniformToFill" />
+        </Grid.Background>
+
+        <Grid x:Name="BoardGrid" Visibility="Collapsed">
+            <!--<Grid.DataContext>
+                <ctx:CheckersGameVM />
+            </Grid.DataContext>-->
+            <Grid.Background>
+                <ImageBrush ImageSource="C:\Users\andre\Desktop\sem II\MAP\JocDameMAP-MVVM-Tema2\JocDameMAP-MVVM-Tema2\Models\Assets\Board.png" />
+            </Grid.Background>
+            <Button
+                x:Name="btnSaveGame"
+                Width="30"
+                Height="20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Command="{Binding SaveGameCommand}">
+                Save
+            </Button>
+            <ItemsControl x:Name="boardGridItemControl" ItemsSource="{Binding Pieces}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Width="80"
+                                        Height="79"
+                                        BorderThickness="3">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="BorderBrush" Value="Black" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SimpleCell.CellColor}" Value="{x:Static Brushes.White}">
+                                                        <Setter Property="BorderBrush" Value="White" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding SimpleCell.CellColor}" Value="{x:Static Brushes.Green}">
+                                                        <Setter Property="BorderBrush" Value="Green" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+
+                                        </Border.Style>
+                                        <Border BorderBrush="Black" BorderThickness="2">
+                                            <Button
+                                                Width="75"
+                                                Height="75"
+                                                Command="{Binding ClickCommand}"
+                                                CommandParameter="{Binding SimpleCell}">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <Image
+                                                            Width="50"
+                                                            Height="50"
+                                                            Source="{Binding SimpleCell.Image}"
+                                                            Stretch="Uniform">
+                                                            <Image.Style>
+                                                                <Style TargetType="Image">
+                                                                    <Setter Property="Opacity" Value="1" />
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding SimpleCell.Image}" Value="C:\Users\andre\Desktop\sem II\MAP\JocDameMAP-MVVM-Tema2\JocDameMAP-MVVM-Tema2\Models\Assets\advTime.png">
+                                                                            <Setter Property="Opacity" Value="0" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Image.Style>
+                                                        </Image>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </Border>
+
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Label
+                Width="50"
+                Height="30"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="{Binding cgl.GameState.CurrentPlayer}"
+                FontSize="15" />
+        </Grid>
+        <Grid x:Name="MainMenugrid" Visibility="Visible">
+            <Button
+                x:Name="btnEnterNewGame"
+                Width="200"
+                Height="60"
+                Margin="0,190,0,0"
+                VerticalAlignment="Top"
+                Click="btnEnterNewGame_Click"
+                FontSize="20">
+                Enter New Game
+            </Button>
+            <Button
+                x:Name="btnLoadGames"
+                Width="200"
+                Height="60"
+                Margin="0,270,0,0"
+                VerticalAlignment="Top"
+                Click="btnLoadGames_Click"
+                FontSize="20">
+                Load Game
+            </Button>
+            <Button
+                x:Name="btnStatistics"
+                Width="200"
+                Height="60"
+                Margin="0,350,0,0"
+                VerticalAlignment="Top"
+                Click="btnStatistics_Click"
+                FontSize="20">
+                Statistics
+            </Button>
+            <CheckBox
+                Width="120"
+                Height="20"
+                Margin="5,500,0,0"
+                VerticalAlignment="Top"
+                FontWeight="Bold"
+                Foreground="Aquamarine"
+                IsChecked="{Binding isCheckedMultipleJumps}">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.75" ScaleY="1.75" />
+                </CheckBox.LayoutTransform>
+                Sarituri Multiple
+                <CheckBox.Style>
+                    <Style TargetType="CheckBox">
+                        <EventSetter Event="Checked" Handler="CheckBoxMultipleJumps_Checked" />
+                        <EventSetter Event="Unchecked" Handler="CheckBoxMultipleJumps_UnChecked" />
+                    </Style>
+                </CheckBox.Style>
+            </CheckBox>
+            <Button
+                x:Name="btnHelp"
+                Width="100"
+                Height="40"
+                Margin="0,0,20,15"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="btnHelp_Click"
+                FontSize="20">
+                Help
+            </Button>
+        </Grid>
+        <Grid x:Name="SavedGamesSelectorGrid" Visibility="Collapsed">
+            <Grid.DataContext>
+                <ctx:SavedGamesVM />
+            </Grid.DataContext>
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ListBox
+                    x:Name="listBox"
+                    Width="300"
+                    Height="400"
+                    HorizontalContentAlignment="Center"
+                    Background="Transparent"
+                    ItemsSource="{Binding SavedGamesList}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button
+                                    Width="200"
+                                    Height="50"
+                                    Margin="5"
+                                    HorizontalAlignment="Center"
+                                    Click="btn_LoadGame"
+                                    Content="{Binding NumeJocSalvat}" />
+                                <Button
+                                    Width="50"
+                                    Height="50"
+                                    Margin="5"
+                                    HorizontalAlignment="Center"
+                                    Command="{Binding DataContext.DeleteGameCommand, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                                    CommandParameter="{Binding}"
+                                    Content="Delete" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </Grid>
+        <Grid
+            x:Name="StatsGrid"
+            Margin="180,250,180,200"
+            Visibility="Collapsed">
+            <Grid.DataContext>
+                <ctx:StatsVM />
+            </Grid.DataContext>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5"
+                Content="Red Wins:"
+                FontSize="20"
+                Foreground="White" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                FontSize="20"
+                Foreground="White"
+                Text="{Binding stats.redWins}" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="5"
+                Content="White Wins:"
+                FontSize="20"
+                Foreground="White" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="5"
+                FontSize="20"
+                Foreground="White"
+                Text="{Binding stats.whiteWins}" />
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="5"
+                Content="Biggest Win Difference:"
+                FontSize="20"
+                Foreground="White" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="5"
+                FontSize="20"
+                Foreground="White"
+                Text="{Binding stats.biggestWinDiff}" />
+        </Grid>
+        <Grid x:Name="HelpGrid" Visibility="Collapsed">
+            <Grid.DataContext>
+                <ctx:HelpMenuVM />
+            </Grid.DataContext>
+            <Label
+                Width="600"
+                Height="60"
+                Margin="30,0,0,400"
+                HorizontalAlignment="Left"
+                Content="{Binding creatorName}"
+                FontSize="40"
+                Foreground="AntiqueWhite" />
+            <Label
+                Width="600"
+                Height="60"
+                Margin="30,171,0,403"
+                HorizontalAlignment="Left"
+                Content="{Binding institutionalEmail}"
+                FontSize="30"
+                Foreground="AntiqueWhite" />
+            <Label
+                Width="120"
+                Height="60"
+                Margin="510,0,0,400"
+                HorizontalAlignment="Left"
+                Content="{Binding grupa}"
+                FontSize="30"
+                Foreground="AntiqueWhite" />
+            <TextBlock
+                Width="556"
+                Margin="30,236,0,47"
+                HorizontalAlignment="Left"
+                FontSize="25"
+                Foreground="AntiqueWhite"
+                TextWrapping="Wrap"><Run Language="ro-ro" Text="&#x9;" /><Run Text="Damele este un joc de strategie pentru doi jucători, jucat pe o tablă de 64 de pătrățele. Fiecare jucător își plasează piesele (damele) pe pătrățele de culoare închisă și apoi le mișcă diagonal înainte pe diagonale libere, sărind peste piesele adverse pentru a le captura. Scopul jocului este să capturezi toate piesele adversarului sau să-l împiedici să facă mutări valide. Damele implică planificare strategică și anticipare pentru a obține avantajul și a câștiga" /></TextBlock>
+        </Grid>
+
+    </Grid>
+</Window>
